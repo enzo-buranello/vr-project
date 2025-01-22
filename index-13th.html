@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Spawner Filtré</title>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+    <script>
+      /***********************************************************************
+       * GESTIONNAIRE GLOBAL DES POSITIONS STATIQUES
+       ***********************************************************************/
+      window.staticPositions = [];
+
+      /***********************************************************************
+       * COMPOSANT "spawner"
+       ***********************************************************************/
+      AFRAME.registerComponent("spawner", {
+        schema: {
+          model: { type: "string" },
+          count: { type: "number", default: 5 },
+          minX: { type: "number", default: -50 },
+          maxX: { type: "number", default: 50 },
+          minZ: { type: "number", default: -50 },
+          maxZ: { type: "number", default: 50 },
+          minScale: { type: "number", default: 1 },
+          maxScale: { type: "number", default: 3 },
+          yOffset: { type: "number", default: 0 },
+          wander: { type: "boolean", default: false },
+          scale: {type : "number"},
+          storePositions: { type: "boolean", default: false },
+          minDistance: { type: "number", default: 3 },
+        },
+
+        init: function () {
+          const sceneEl = this.el.sceneEl;
+          const data = this.data;
+
+          for (let i = 0; i < data.count; i++) {
+            let spawnPos = null;
+            for (let attempt = 0; attempt < 30; attempt++) {
+              const randX = this.randomRange(data.minX, data.maxX);
+              const randZ = this.randomRange(data.minZ, data.maxZ);
+              const candidatePos = { x: randX, y: data.yOffset, z: randZ };
+
+              if (this.isPositionValid(candidatePos, data.minDistance)) {
+                spawnPos = candidatePos;
+                break;
+              }
+            }
+
+            if (!spawnPos) {
+              console.warn("Impossible de trouver un emplacement libre !");
+              continue;
+            }
+
+            const entity = document.createElement("a-entity");
+            //entity.setAttribute("gltf-model", data.model);
+            entity.setAttribute("mixin", data.model);
+
+            entity.setAttribute("position", spawnPos);
+
+            const scaleFactor = this.randomRange(data.minScale, data.maxScale);
+            entity.setAttribute(
+              "scale",
+              `${scaleFactor} ${scaleFactor} ${scaleFactor}`
+            );
+
+            const randRotY = Math.floor(Math.random() * 360);
+            entity.setAttribute("rotation", `0 ${randRotY} 0`);
+
+            if (data.wander) {
+              entity.setAttribute("wanderer", {
+                areaMinX: data.minX,
+                areaMaxX: data.maxX,
+                areaMinZ: data.minZ,
+                areaMaxZ: data.maxZ,
+              });
+            }
+
+            if (data.storePositions) {
+              window.staticPositions.push(spawnPos);
+            }
+
+            sceneEl.appendChild(entity);
+          }
+        },
+
+        randomRange: function (min, max) {
+          return Math.random() * (max - min) + min;
+        },
+
+        isPositionValid: function (candidatePos, requiredDist) {
+          for (let i = 0; i < window.staticPositions.length; i++) {
+            const existingPos = window.staticPositions[i];
+            const dist = this.distance2D(candidatePos, existingPos);
+            if (dist < requiredDist) {
+              return false;
+            }
+          }
+          return true;
+        },
+
+        distance2D: function (posA, posB) {
+          const dx = posA.x - posB.x;
+          const dz = posA.z - posB.z;
+          return Math.sqrt(dx * dx + dz * dz);
+        },
+      });
+    </script>
+  </head>
+
+  <body>
+
+   
+    <a-scene> 
+      <a-assets>
+      <a-mixin id="trees" gltf-model="url(./assets/trees2.glb)"></a-mixin>
+      <a-mixin id="trees-2" gltf-model="url(./assets/dead-trees.glb)"></a-mixin>
+
+      </a-assets>
+      <!-- Spawner d'arbres -->
+      <a-entity
+        mixin="trees"
+        spawner="model: trees;
+                 count: 30;
+                 minX: -10; maxX: 10;
+                 minZ: -10; maxZ: 10;
+                 minScale: 2; maxScale: 4;
+                 yOffset: 0;
+                 wander: false;
+                 storePositions: true;
+                 minDistance: 20
+                 "
+                
+      ></a-entity>
+
+      <!-- Spawner de Simularbre -->
+      <a-entity
+      mixin="trees-2"
+        spawner="model: trees-2;
+                 count: 30;
+                 minX: -10; maxX: 10;
+                 minZ: -10; maxZ: 10;
+                 minScale: 2; maxScale: 2;
+                 yOffset: 0;
+                 wander: true;
+                 storePositions: false;
+                 minDistance: 5"
+      ></a-entity> 
+      
+      
+      <a-entity id="camera" camera="" position="-0.2147 1.6 -2.11013" look-controls="" rotation="-10.428 -177.044 0" data-aframe-inspector-original-camera="">
+      </a-entity>
+      
+ <a-plane
+        position="0 0 0"
+        rotation="-90 0 0"
+        width="40"
+        height="40"
+        color="hsl(164, 21%, 26%)"
+      ></a-plane>
+   <a-sky color="#2c3e50"></a-sky>
+
+      <!-- Spawner d'Évolis -->
+      <!-- <a-entity
+        spawner="model: #evoliModel;
+                 count: 8;
+                 minX: -50; maxX: 50;
+                 minZ: -50; maxZ: 50;
+                 minScale: 2; maxScale: 3;
+                 yOffset: 1;
+                 wander: true;
+                 storePositions: false;
+                 minDistance: 4"
+      ></a-entity> -->
+    </a-scene>
+  </body>
+</html>
+
+
+  
