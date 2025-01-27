@@ -5,174 +5,242 @@
     <title>Spawner Filtré</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-    <script>
-      /***********************************************************************
-       * GESTIONNAIRE GLOBAL DES POSITIONS STATIQUES
-       ***********************************************************************/
-      window.staticPositions = [];
-
-      /***********************************************************************
-       * COMPOSANT "spawner"
-       ***********************************************************************/
-      AFRAME.registerComponent("spawner", {
-        schema: {
-          model: { type: "string" },
-          count: { type: "number", default: 5 },
-          minX: { type: "number", default: -50 },
-          maxX: { type: "number", default: 50 },
-          minZ: { type: "number", default: -50 },
-          maxZ: { type: "number", default: 50 },
-          minScale: { type: "number", default: 1 },
-          maxScale: { type: "number", default: 3 },
-          yOffset: { type: "number", default: 0 },
-          wander: { type: "boolean", default: false },
-          scale: {type : "number"},
-          storePositions: { type: "boolean", default: false },
-          minDistance: { type: "number", default: 3 },
-        },
-
-        init: function () {
-          const sceneEl = this.el.sceneEl;
-          const data = this.data;
-
-          for (let i = 0; i < data.count; i++) {
-            let spawnPos = null;
-            for (let attempt = 0; attempt < 30; attempt++) {
-              const randX = this.randomRange(data.minX, data.maxX);
-              const randZ = this.randomRange(data.minZ, data.maxZ);
-              const candidatePos = { x: randX, y: data.yOffset, z: randZ };
-
-              if (this.isPositionValid(candidatePos, data.minDistance)) {
-                spawnPos = candidatePos;
-                break;
-              }
-            }
-
-            if (!spawnPos) {
-              console.warn("Impossible de trouver un emplacement libre !");
-              continue;
-            }
-
-            const entity = document.createElement("a-entity");
-            //entity.setAttribute("gltf-model", data.model);
-            entity.setAttribute("mixin", data.model);
-
-            entity.setAttribute("position", spawnPos);
-
-            const scaleFactor = this.randomRange(data.minScale, data.maxScale);
-            entity.setAttribute(
-              "scale",
-              `${scaleFactor} ${scaleFactor} ${scaleFactor}`
-            );
-
-            const randRotY = Math.floor(Math.random() * 360);
-            entity.setAttribute("rotation", `0 ${randRotY} 0`);
-
-            if (data.wander) {
-              entity.setAttribute("wanderer", {
-                areaMinX: data.minX,
-                areaMaxX: data.maxX,
-                areaMinZ: data.minZ,
-                areaMaxZ: data.maxZ,
-              });
-            }
-
-            if (data.storePositions) {
-              window.staticPositions.push(spawnPos);
-            }
-
-            sceneEl.appendChild(entity);
-          }
-        },
-
-        randomRange: function (min, max) {
-          return Math.random() * (max - min) + min;
-        },
-
-        isPositionValid: function (candidatePos, requiredDist) {
-          for (let i = 0; i < window.staticPositions.length; i++) {
-            const existingPos = window.staticPositions[i];
-            const dist = this.distance2D(candidatePos, existingPos);
-            if (dist < requiredDist) {
-              return false;
-            }
-          }
-          return true;
-        },
-
-        distance2D: function (posA, posB) {
-          const dx = posA.x - posB.x;
-          const dz = posA.z - posB.z;
-          return Math.sqrt(dx * dx + dz * dz);
-        },
-      });
-    </script>
   </head>
 
   <body>
 
    
-    <a-scene> 
+    <a-scene>
       <a-assets>
-      <a-mixin id="trees" gltf-model="url(./assets/trees2.glb)"></a-mixin>
-      <a-mixin id="trees-2" gltf-model="url(./assets/dead-trees.glb)"></a-mixin>
+        <a-asset-item id="treesModel" src="./assets/trees2.glb"></a-asset-item>
+        <a-asset-item id="deadTreesModel" src="./assets/dead-trees.glb"></a-asset-item>
+        <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
 
       </a-assets>
-      <!-- Spawner d'arbres -->
-      <a-entity
-        mixin="trees"
-        spawner="model: trees;
-                 count: 30;
-                 minX: -10; maxX: 10;
-                 minZ: -10; maxZ: 10;
-                 minScale: 2; maxScale: 4;
-                 yOffset: 0;
-                 wander: false;
-                 storePositions: true;
-                 minDistance: 20
-                 "
-                
-      ></a-entity>
+    
+      <!-- Arbre 1 -->
+<a-entity gltf-model="./assets/trees2.glb" position="-3.93481 0 5.42473" scale="4 4 4">
+    </a-entity>
+    
+      <a-entity 
+      gltf-model="#treesModel" 
+      position="5 0 4" 
+      scale="4 4 4">
 
-      <!-- Spawner de Simularbre -->
-      <a-entity
-      mixin="trees-2"
-        spawner="model: trees-2;
-                 count: 30;
-                 minX: -10; maxX: 10;
-                 minZ: -10; maxZ: 10;
-                 minScale: 2; maxScale: 2;
-                 yOffset: 0;
-                 wander: true;
-                 storePositions: false;
-                 minDistance: 5"
-      ></a-entity> 
-      
-      
-      <a-entity id="camera" camera="" position="-0.2147 1.6 -2.11013" look-controls="" rotation="-10.428 -177.044 0" data-aframe-inspector-original-camera="">
+    </a-entity>
+
+      <a-entity gltf-model="./assets/trees2.glb" position="-5.33944 0 -0.8383" scale="4 4 4">  </a-entity>
+
+
+    <a-entity gltf-model="./assets/trees2.glb" position="1.15886 0 -1.37853" scale="4 4 4" rotation="0 -19.39 0">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="0.34132 0 6.88782" scale="4 4 4">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="3.07699 0 -2.9825" scale="4 4 4" rotation="0 -19.39 0">
+    </a-entity>
+
+    <a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
+    </a-plane>
+
+
+    <a-entity gltf-model="./assets/trees2.glb" position="-7.06593 0 0.35979" scale="4 4 4">  </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="-5.98087 0 3.40851" scale="4 4 4">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="-8.02424 0 2.02672" scale="4 4 4">  </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="-3.78512 0 7.41335" scale="4 4 4">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/dead-trees.glb" position="2.03921 0 5.24492" scale="2 2 2">
+    
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees2.glb" position="5.05362 0 0.58259" scale="4 4 4" rotation="0 -19.39 0">
+    </a-entity>
+    
+      <!-- Arbre 2 -->
+   <a-entity gltf-model="./assets/dead-trees.glb" position="2.03921 0 5.24492" scale="2 2 2">
+    
       </a-entity>
-      
- <a-plane
-        position="0 0 0"
-        rotation="-90 0 0"
-        width="40"
-        height="40"
-        color="hsl(164, 21%, 26%)"
-      ></a-plane>
-   <a-sky color="#2c3e50"></a-sky>
+<a-entity gltf-model="./assets/dead-trees.glb" position="3.32623 0 -0.03762" scale="2 2 2">
+    </a-entity>
 
-      <!-- Spawner d'Évolis -->
-      <!-- <a-entity
-        spawner="model: #evoliModel;
-                 count: 8;
-                 minX: -50; maxX: 50;
-                 minZ: -50; maxZ: 50;
-                 minScale: 2; maxScale: 3;
-                 yOffset: 1;
-                 wander: true;
-                 storePositions: false;
-                 minDistance: 4"
-      ></a-entity> -->
+
+    <a-entity 
+    gltf-model="#deadTreesModel" 
+    position="-2 0 -2" 
+    scale="2 2 2">
+  </a-entity>
+
+  <a-entity 
+  gltf-model="#deadTreesModel" 
+  position="-2 0 -2" 
+  scale="2 2 2">
+</a-entity>
+
+<a-entity 
+gltf-model="#deadTreesModel" 
+position="-2 0 -2" 
+scale="2 2 2">
+</a-entity>
+
+<a-entity 
+gltf-model="#deadTreesModel" 
+position="-2 0 -2" 
+scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-5.86016 0 2.19013" scale="2 2 2">
+</a-entity>
+    
+
+
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-1.08379 0 5.66685" scale="2 2 2">
+    
+</a-entity>
+
+<a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
+</a-plane>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="5.3121 0 2.10283" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-0.20164 0 -4.38537" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-4.79996 0 -3.30448" scale="2 2 2">
+</a-entity>
+
+<a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
+</a-plane>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="3.61089 0 -1.99163" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="1.0163 0 -2.92051" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="3.9062 0 5.81583" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-7.50251 0 -2.14964" scale="2 2 2">
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="-9.6264 0 1.3034" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/trees2.glb" position="-5.339 0 -0.838" scale="4 4 4">  </a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-5.86202 0 5.80211" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-7.04578 0 4.79961" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-2.35266 0 7.76868" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="1.54812 0 7.24193" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="2.03921 0 5.24492" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="7.21983 0 -0.94416" scale="2 2 2">
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="-6.66247 0 3.79415" scale="2 2 2">
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="-7.436 0 0.52734" scale="2 2 2">
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="-1.70819 0 -4.71536" scale="2 2 2">
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="6.8115 0 2.97268" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="3.84537 0 4.6426" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="4.10359 0 3.0218" scale="2 2 2">
+    
+</a-entity>
+
+<a-entity gltf-model="./assets/grass_1.glb" position="" scale="1 0.7 1">
+
+</a-entity>
+<a-entity gltf-model="./assets/dead-trees.glb" position="-5.03365 0 4.57022" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/dead-trees.glb" position="-5.63097 0 8.31943" scale="2 2 2">
+</a-entity>
+
+<a-entity gltf-model="./assets/trees2.glb" position="-9.24719 0 7.41335" scale="4 4 4">
+</a-entity>
+
+
+
+
+
+
+      <!-- Sol -->
+
+
+
+
+
+
+      <a-plane 
+        position="0 0 0" 
+        rotation="-90 0 0" 
+        width="40" 
+        height="40" 
+        color="hsl(164, 21%, 26%)">
+      </a-plane>
+
+
+
+<!-- -------------------herbe-------------------------------- -->
+
+<a-entity 
+gltf-model="#grass" 
+position="0 0 0" 
+scale="1 0.7 1">
+
+</a-entity>
+
+
+<a-entity gltf-model="./assets/grass_1.glb" position="1.07649 0 2.8222" scale="1 0.7 1">
+
+
+
+</a-entity>
+
+
+
+
+
+
+
+
+
+
+
+      <!---------------------------------CAM--------------------------------->
+
+
+      <a-entity camera="" position="-1.2367 1.6 1.93005" wasd-controls="" rotation="-31.513000000000005 116.998 0" look-controls="" aframe-injected="" data-aframe-inspector-original-camera=""></a-entity>
+    
+      <!-- Ciel -->
+      <a-sky color="#2c3e50"></a-sky>
+    
     </a-scene>
   </body>
 </html>
