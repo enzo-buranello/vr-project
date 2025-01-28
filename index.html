@@ -10,11 +10,13 @@
   <body>
 
    
-    <a-scene>
+    <a-scene fog="type: exponential; color: #000; density: 0.2">
       <a-assets>
         <a-asset-item id="treesModel" src="./assets/trees2.glb"></a-asset-item>
         <a-asset-item id="deadTreesModel" src="./assets/dead-trees.glb"></a-asset-item>
         <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
+        <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
+
 
       </a-assets>
     
@@ -197,14 +199,15 @@ scale="2 2 2">
 
 
 
-      <a-plane 
-        position="0 0 0" 
-        rotation="-90 0 0" 
-        width="40" 
-        height="40" 
-        color="hsl(164, 21%, 26%)">
-      </a-plane>
 
+
+      <a-plane 
+          position="0 0.01 0" 
+          rotation="-90 0 0" 
+          width="20" 
+          height="20" 
+          >
+        </a-plane>
 
 
 <!-- -------------------herbe-------------------------------- -->
@@ -216,12 +219,44 @@ scale="1 0.7 1">
 
 </a-entity>
 
+<a-entity gltf-model="./assets/grass_1.glb" position="1.07649 0 2.8222" scale="1 0.7 1"></a-entity>
+<!-- --------------------Bush --------------------------------->
 
-<a-entity gltf-model="./assets/grass_1.glb" position="1.07649 0 2.8222" scale="1 0.7 1">
-
-
+<a-entity gltf-model="./assets/real_bush.glb" position="-1.03 -0.18 -2.98" scale="0.01 0.015 0.01">
 
 </a-entity>
+
+<a-entity gltf-model="./assets/real_bush.glb" position="-6.4269 0 -0.73774" scale="0.01 0.015 0.01">
+
+</a-entity>
+
+
+<a-entity gltf-model="./assets/real_bush.glb" position="-6.23476 0 3.43873" scale="0.01 0.015 0.01">
+
+</a-entity>
+
+
+<a-entity 
+gltf-model="#bush" 
+position="-7 0 -3" 
+scale="0.01 0.015 0.01">
+
+</a-entity>
+
+<a-entity gltf-model="./assets/real_bush.glb" position="-1.51463 0 6.66856" scale="0.01 0.015 0.01" rotation="0 20 0">
+
+</a-entity>
+
+<a-entity gltf-model="./assets/real_bush.glb" position="-4.28068 0 5.52106" scale="0.01 0.015 0.01" rotation="0 20 0">
+
+</a-entity>
+
+
+
+
+
+
+
 
 
 
@@ -236,10 +271,32 @@ scale="1 0.7 1">
       <!---------------------------------CAM--------------------------------->
 
 
-      <a-entity camera="" position="-1.2367 1.6 1.93005" wasd-controls="" rotation="-31.513000000000005 116.998 0" look-controls="" aframe-injected="" data-aframe-inspector-original-camera=""></a-entity>
+      <a-entity
+      camera
+      position="-1.2367 1.6 1.93005"
+      rotation="-31.513 116.998 0"
+      look-controls
+    >
+      <!-- Lumière attachée à la caméra -->
+      <a-light
+        type="spot"
+        color="#ffffff"
+        intensity="5"
+        angle="30"
+        penumbra="1"
+        target="#spotTarget"
+        distance="200"
+      ></a-light>
+
+      <!-- Cible de la lumière -->
+      <a-entity
+        id="spotTarget"
+        position="0 0 -1"
+      ></a-entity>
+    </a-entity>
     
       <!-- Ciel -->
-      <a-sky color="#2c3e50"></a-sky>
+      <a-sky color="#00000"></a-sky>
     
     </a-scene>
   </body>
