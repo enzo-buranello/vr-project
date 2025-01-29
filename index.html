@@ -16,9 +16,15 @@
         <a-asset-item id="deadTreesModel" src="./assets/trees-1.glb"></a-asset-item>
         <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
         <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
+        <a-asset-item id="camera" src="./assets/camera.glb"></a-asset-item>
 
+
+
+<audio id="sound" src="./assets/screaming_1.mp3"></audio>
 
       </a-assets>
+
+      <a-entity sound="src:#collect"></a-entity>
     
       <!-- Arbre 1 -->
       <a-entity gltf-model="./assets/trees-2-txt.glb" 
@@ -37,7 +43,7 @@
       <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-5.33944 0 -0.8383" scale="4 4 4">  </a-entity>
 
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="1.15886 0 -1.37853" scale="4 4 4" rotation="0 -19.39 0">
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="1.15886 0 -2" scale="4 4 4" rotation="0 -19.39 0">
     </a-entity>
 
     <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="0.34132 0 6.88782" scale="4 4 4">
@@ -139,7 +145,7 @@ scale="2 2 2">
 <a-entity gltf-model="./assets/trees-1.glb" position="-9.6264 0 1.3034" scale="2 2 2">
 </a-entity>
 
-<a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-5.339 0 -0.838" scale="4 4 4">  </a-entity>
+<a-entity gltf-model="./assets/trees-2-txt.glb" material="./as@sets/trees-texture-1.jpg" position="-5.339 0 -0.838" scale="4 4 4">  </a-entity>
 
 <a-entity gltf-model="./assets/trees-1.glb" position="-5.86202 0 5.80211" scale="2 2 2">
 </a-entity>
@@ -189,6 +195,19 @@ scale="2 2 2">
 
 <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-9.24719 0 7.41335" scale="4 4 4">
 </a-entity>
+
+
+
+
+
+
+
+<!-- -----------------------------------objets---------------------------- -->
+<a-entity class="clickable" gltf-model="./assets/camera.glb" position="-1.68071 0.36014 -1.83312" scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
+
+
+
+<a-entity sound="src: #sound"></a-entity>
 
 
 
@@ -262,8 +281,8 @@ scale="0.01 0.015 0.01">
 
 
 
-
-
+  
+    
 
 
 
@@ -273,14 +292,27 @@ scale="0.01 0.015 0.01">
 
 
       <!---------------------------------CAM--------------------------------->
+      <a-entity cursor position="0 0 -5"></a-entity>
 
 
       <a-entity
       camera
-      position="-1.2367 1.8 1.93005"
+      position="-1.2367 2 1.93005"
       rotation="-31.513 116.998 0"
       look-controls
+
     >
+
+      <!-- cursor -->
+      <a-cursor ></a-cursor>
+
+
+      <a-entity
+      laser-controls="hand: left"
+      raycaster="objects: .clickable; far: 20; showLine: true lineColor: red; lineOpacity: 0.5"
+      position="-0.5 1.5 -0.5"
+    ></a-entity>
+
       <!-- Lumière attachée à la caméra -->
       <a-light
         type="spot"
@@ -303,6 +335,38 @@ scale="0.01 0.015 0.01">
       <a-sky color="#00000"></a-sky>
     
     </a-scene>
+    <script>
+      // Créer une variable pour gérer l'état de l'AudioContext
+      let soundEnabled = false;
+
+      // Fonction pour activer l'AudioContext sur un clic utilisateur
+      function enableSoundOnUserClick() {
+        soundEnabled = true;
+        console.log("AudioContext activé après un clic utilisateur");
+        // Supprimer l'événement une fois que l'activation a eu lieu
+        document.removeEventListener('click', enableSoundOnUserClick);
+      }
+
+      // Écouteur d'événements pour activer l'AudioContext sur un clic n'importe où
+      document.addEventListener('click', enableSoundOnUserClick);
+
+      // Composant pour jouer le son lorsqu'on clique sur l'entité
+      AFRAME.registerComponent("play-sound", {
+        init: function () {
+          // Lorsqu'on clique sur l'élément (dans ce cas le cube)
+          this.el.addEventListener("click", () => {
+            if (soundEnabled) {
+              // Sélectionner l'élément audio et jouer le son
+              var sound = document.querySelector("#sound");
+              sound.play();
+              console.log("Son joué");
+            } else {
+              console.log("L'audio n'est pas activé encore. Attendez un clic.");
+            }
+          });
+        },
+      });
+    </script>
   </body>
 </html>
 
