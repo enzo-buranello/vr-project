@@ -16,13 +16,14 @@
         <a-asset-item id="deadTreesModel" src="./assets/trees-1.glb"></a-asset-item>
         <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
         <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
-        <a-asset-item id="camera" src="./assets/camera.glb"></a-asset-item>
+        <a-asset-item id="camera" src="./assets/camera-1.glb"></a-asset-item>
 
 
 
 <audio id="sound" src="./assets/screaming_1.mp3"></audio>
 
       </a-assets>
+
 
       <a-entity sound="src:#collect"></a-entity>
     
@@ -203,7 +204,7 @@ scale="2 2 2">
 
 
 <!-- -----------------------------------objets---------------------------- -->
-<a-entity class="clickable" gltf-model="./assets/camera.glb" position="-1.68071 0.36014 -1.83312" scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
+<a-entity class="clickable" gltf-model="./assets/camera-1.glb" position="-1.68071 0.36014 -1.83312" scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
 
 
 
@@ -304,7 +305,8 @@ scale="0.01 0.015 0.01">
     >
 
       <!-- cursor -->
-      <a-cursor ></a-cursor>
+      <a-entity oculus-touch-controls="hand: left"></a-entity>
+      <a-entity oculus-touch-controls="hand: right"></a-entity>
 
 
       <a-entity
@@ -336,6 +338,8 @@ scale="0.01 0.015 0.01">
     
     </a-scene>
     <script>
+
+      
       // Créer une variable pour gérer l'état de l'AudioContext
       let soundEnabled = false;
 
