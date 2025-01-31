@@ -5,36 +5,101 @@
   <meta charset="UTF-8" />
   <title>Spawner Filtré</title>
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <style>
+    /* Overlay pour bordures caméra */
+    .camera-frame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+      border: 8px solid rgba(197, 0, 0, 0.514);
+      /* Bord noir */
+      pointer-events: none;
+      /* Laisse les interactions avec la scène */
+      z-index: 10;
+    }
 
+    /* Effet REC */
+    .rec-indicator {
+      position: absolute;
+      font-family: sans-serif;
+      top: 30px;
+      left: 30px;
+      color: rgb(162, 0, 0);
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    #timer-text {
+      font-size: 20px;
+      color: white;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100; /* Placer le timer au-dessus de tout */
+    }
+
+    #black-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      z-index: 100; /* Placer l'écran noir au-dessus de tout */
+    }
+
+    /* Style du texte "Project Blairwitch" */
+    #blairwitch-text {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+      z-index: 101; /* Placer le texte au-dessus de l'écran noir */
+    }
+  </style>
 </head>
 
 <body>
+  <div id="timer-text"></div>
+  <div id="black-screen"></div>
+  <div id="blairwitch-text">The Blairwitch Project</div>
 
+  <!-- Overlay pour bordures caméra -->
+  <div class="camera-frame"></div>
+
+  <!-- Effet REC -->
+  <div class="rec-indicator">REC</div>
 
   <a-scene fog="type: exponential; color: #000; density: 0.2">
-   
 
-    
     <a-assets>
       <a-asset-item id="treesModel" src="./assets/trees-2-txt.glb"
         material="./assets/trees-texture-1.jpg"></a-asset-item>
       <a-asset-item id="deadTreesModel" src="./assets/trees-1.glb"></a-asset-item>
       <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
       <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
-      <a-asset-item id="camera" src="./assets/camera-1.glb"></a-asset-item>  
-      <audio id="sound" src="./assets/screaming_1.mp3"></audio>
-
+      <a-asset-item id="camera" src="./assets/camera-1.glb"></a-asset-item>
+      <audio id="sound" src="./assets/voice.mp3"></audio>
+      <audio id="sound2" src="./assets/voice.mp3"></audio>
     </a-assets>
 
-
-
-    <!-- Arbre 1 -->
     <a-entity gltf-model="./assets/trees-2-txt.glb" gltf-texture="src: ./assets/trees-texture-1.jpg"
       position="-3.93481 0 5.42473" scale="4 4 4">
     </a-entity>
 
-    <a-entity gltf-model="#treesModel" position="5 0 4" scale="4 4 4"
-    >
+    <a-entity gltf-model="#treesModel" position="5 0 4" scale="4 4 4">
 
     </a-entity>
 
@@ -53,7 +118,7 @@
     <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="3.07699 0 -2.9825"
       scale="4 4 4" rotation="0 -19.39 0"
       sound="src: #ambience; autoplay:true; loop: true; volume: 10; positional: false;">
-      >
+
     </a-entity>
 
     <a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
@@ -206,6 +271,9 @@
       scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
 
 
+    <a-entity class="clickable" gltf-model="./assets/camera-1.glb" position="-3.53163 0.36014 5.33191"
+      scale="0.02 0.02 0.02" rotation="10 0 0" play-sound=""></a-entity>
+
 
     <a-entity sound="src: #sound"></a-entity>
 
@@ -226,7 +294,7 @@
     <a-plane position="0 0.01 0" rotation="-90 0 0" width="20" height="20" color="#000"></a-plane>
 
 
-    </a-plane>
+
 
 
     <!-- -------------------herbe-------------------------------- -->
@@ -283,24 +351,15 @@ scale="1 0.7 1">
 
 
 
-
-
-    <!---------------------------------CAM--------------------------------->
-    <a-entity cursor position="0 0 -5"></a-entity>
-
-
-
-
-    <a-entity camera position="-1.2367 2 1.93005" rotation="-31.513 116.998 0" look-controls>
-
-      <!-- cursor -->
+    <!-- ---------------------------------CAM--------------------------------->
+    <a-entity camera position="-1.2367 2.3 1.93005" rotation="-31.513 116.998 0" look-controls>
       <a-entity oculus-touch-controls="hand: left"></a-entity>
       <a-entity oculus-touch-controls="hand: right"></a-entity>
 
-
       <a-entity laser-controls="hand: left"
         raycaster="objects: .clickable; far: 20; showLine: true lineColor: red; lineOpacity: 0.5"
-        position="-0.5 1.5 -0.5"></a-entity>
+        position="-0.5 1.5 -0.5"> <a-entity cursor position="0 0 0"></a-entity>
+      </a-entity>
 
       <!-- Lumière attachée à la caméra -->
       <a-light type="spot" color="#ffffff" intensity="5" angle="30" penumbra="1" target="#spotTarget"
@@ -313,9 +372,24 @@ scale="1 0.7 1">
     <!-- Ciel -->
     <a-sky color="#00000"></a-sky>
   </a-scene>
+
   <script>
+    let timer = 10; // Durée du timer en secondes
+    const timerText = document.getElementById('timer-text');
+    const blackScreen = document.getElementById('black-screen');
+    const blairwitchText = document.getElementById('blairwitch-text'); // Récupère l'élément du texte
 
-
+    // Mise à jour du timer toutes les secondes
+    const interval = setInterval(() => {
+      if (timer > 0) {
+        timer--;
+      } else {
+        // Une fois le timer terminé, afficher l'écran noir et le texte
+        clearInterval(interval);
+        blackScreen.style.opacity = 1;  // L'écran devient noir
+        blairwitchText.style.display = 'block';  // Affiche le texte "Project Blairwitch"
+      }
+    }, 1000);
 
     // Créer une variable pour gérer l'état de l'AudioContext
     let soundEnabled = false;
