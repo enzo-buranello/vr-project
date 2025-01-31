@@ -1,201 +1,208 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Spawner Filtré</title>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Spawner Filtré</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-  <body>
+</head>
 
+<body>
+
+
+  <a-scene fog="type: exponential; color: #000; density: 0.2">
    
-    <a-scene fog="type: exponential; color: #000; density: 0.2">
-      <a-assets>
-        <a-asset-item id="treesModel" src="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"></a-asset-item>
-        <a-asset-item id="deadTreesModel" src="./assets/trees-1.glb"></a-asset-item>
-        <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
-        <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
-        <a-asset-item id="camera" src="./assets/camera-1.glb"></a-asset-item>
 
-
-
-<audio id="sound" src="./assets/screaming_1.mp3"></audio>
-
-      </a-assets>
-
-
-      <a-entity sound="src:#collect"></a-entity>
     
-      <!-- Arbre 1 -->
-      <a-entity gltf-model="./assets/trees-2-txt.glb" 
-      gltf-texture="src: ./assets/trees-texture-1.jpg" 
-      position="-3.93481 0 5.42473" 
-      scale="4 4 4">
+    <a-assets>
+      <a-asset-item id="treesModel" src="./assets/trees-2-txt.glb"
+        material="./assets/trees-texture-1.jpg"></a-asset-item>
+      <a-asset-item id="deadTreesModel" src="./assets/trees-1.glb"></a-asset-item>
+      <a-asset-item id="grass" src="./assets/grass_1.glb"></a-asset-item>
+      <a-asset-item id="bush" src="./assets/real_bush.glb"></a-asset-item>
+      <a-asset-item id="camera" src="./assets/camera-1.glb"></a-asset-item>
+      <audio id="ambience" src="./assets/ambience.mp3"></audio>
+  
+      <audio id="sound" src="./assets/screaming_1.mp3"></audio>
+
+    </a-assets>
+
+
+    <a-entity id="ambientSound" 
+    sound="src: #ambience; autoplay: false; loop: true; volume: O.5; positional: false;">
 </a-entity>
-    
-      <a-entity 
-      gltf-model="#treesModel" 
-      position="5 0 4" 
+
+<button id="playButton" style="position: fixed; top: 10px; left: 10px; padding: 10px; font-size: 16px;">
+  Activer le son
+</button>
+
+    <!-- Arbre 1 -->
+    <a-entity gltf-model="./assets/trees-2-txt.glb" gltf-texture="src: ./assets/trees-texture-1.jpg"
+      position="-3.93481 0 5.42473" scale="4 4 4">
+    </a-entity>
+
+    <a-entity gltf-model="#treesModel" position="5 0 4" scale="4 4 4"
+    >
+
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-5.33944 0 -0.8383" scale="4 4 4"> </a-entity>
+
+
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="1.15886 0 -2"
+      scale="4 4 4" rotation="0 -19.39 0">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="0.34132 0 6.88782"
       scale="4 4 4">
-
     </a-entity>
 
-      <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-5.33944 0 -0.8383" scale="4 4 4">  </a-entity>
-
-
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="1.15886 0 -2" scale="4 4 4" rotation="0 -19.39 0">
-    </a-entity>
-
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="0.34132 0 6.88782" scale="4 4 4">
-    </a-entity>
-
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="3.07699 0 -2.9825" scale="4 4 4" rotation="0 -19.39 0">
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="3.07699 0 -2.9825"
+      scale="4 4 4" rotation="0 -19.39 0"
+      sound="src: #ambience; autoplay:true; loop: true; volume: 10; positional: false;">
+      >
     </a-entity>
 
     <a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
     </a-plane>
 
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-7.06593 0 0.35979" scale="4 4 4">  </a-entity>
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-7.06593 0 0.35979" scale="4 4 4"> </a-entity>
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-5.98087 0 3.40851" scale="4 4 4">
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-5.98087 0 3.40851" scale="4 4 4">
     </a-entity>
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-8.02424 0 2.02672" scale="4 4 4">  </a-entity>
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-8.02424 0 2.02672" scale="4 4 4"> </a-entity>
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-3.78512 0 7.41335" scale="4 4 4">
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-3.78512 0 7.41335" scale="4 4 4">
     </a-entity>
 
     <a-entity gltf-model="./assets/trees-1.glb" position="2.03921 0 5.24492" scale="2 2 2">
-    
+
     </a-entity>
 
-    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="5.05362 0 0.58259" scale="4 4 4" rotation="0 -19.39 0">
-    </a-entity>
-    
-      <!-- Arbre 2 -->
-   <a-entity gltf-model="./assets/trees-1.glb" position="2.03921 0 5.24492" scale="2 2 2">
-    
-      </a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="3.32623 0 -0.03762" scale="2 2 2">
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="5.05362 0 0.58259"
+      scale="4 4 4" rotation="0 -19.39 0">
     </a-entity>
 
+    <!-- Arbre 2 -->
+    <a-entity gltf-model="./assets/trees-1.glb" position="2.03921 0 5.24492" scale="2 2 2">
 
-    <a-entity 
-    gltf-model="#deadTreesModel" 
-    position="-2 0 -2" 
-    scale="2 2 2">
-  </a-entity>
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="3.32623 0 -0.03762" scale="2 2 2">
+    </a-entity>
 
-  <a-entity 
-  gltf-model="#deadTreesModel" 
-  position="-2 0 -2" 
-  scale="2 2 2">
-</a-entity>
 
-<a-entity 
-gltf-model="#deadTreesModel" 
-position="-2 0 -2" 
-scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="#deadTreesModel" position="-2 0 -2" scale="2 2 2">
+    </a-entity>
 
-<a-entity 
-gltf-model="#deadTreesModel" 
-position="-2 0 -2" 
-scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="#deadTreesModel" position="-2 0 -2" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-5.86016 0 2.19013" scale="2 2 2">
-</a-entity>
-    
+    <a-entity gltf-model="#deadTreesModel" position="-2 0 -2" scale="2 2 2">
+    </a-entity>
+
+    <a-entity gltf-model="#deadTreesModel" position="-2 0 -2" scale="2 2 2">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-1.glb" position="-5.86016 0 2.19013" scale="2 2 2">
+    </a-entity>
 
 
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-1.08379 0 5.66685" scale="2 2 2">
-    
-</a-entity>
 
-<a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
-</a-plane>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-1.08379 0 5.66685" scale="2 2 2">
 
-<a-entity gltf-model="./assets/trees-1.glb" position="5.3121 0 2.10283" scale="2 2 2">
-</a-entity>
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-0.20164 0 -4.38537" scale="2 2 2">
-</a-entity>
+    <a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
+    </a-plane>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-4.79996 0 -3.30448" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="5.3121 0 2.10283" scale="2 2 2">
+    </a-entity>
 
-<a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
-</a-plane>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-0.20164 0 -4.38537" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="3.61089 0 -1.99163" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-4.79996 0 -3.30448" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="1.0163 0 -2.92051" scale="2 2 2">
-</a-entity>
+    <a-plane position="" rotation="-90 0 0" width="40" height="40" color="hsl(164, 21%, 26%)">
+    </a-plane>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="3.9062 0 5.81583" scale="2 2 2">
-    
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="3.61089 0 -1.99163" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-7.50251 0 -2.14964" scale="2 2 2">
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="-9.6264 0 1.3034" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="1.0163 0 -2.92051" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-2-txt.glb" material="./as@sets/trees-texture-1.jpg" position="-5.339 0 -0.838" scale="4 4 4">  </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="3.9062 0 5.81583" scale="2 2 2">
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-5.86202 0 5.80211" scale="2 2 2">
-</a-entity>
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-7.04578 0 4.79961" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-7.50251 0 -2.14964" scale="2 2 2">
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-9.6264 0 1.3034" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-2.35266 0 7.76868" scale="2 2 2">
-    
-</a-entity>
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./as@sets/trees-texture-1.jpg" position="-5.339 0 -0.838"
+      scale="4 4 4"> </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="1.54812 0 7.24193" scale="2 2 2">
-    
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-5.86202 0 5.80211" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="2.03921 0 5.24492" scale="2 2 2">
-    
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-7.04578 0 4.79961" scale="2 2 2">
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="7.21983 0 -0.94416" scale="2 2 2">
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="-6.66247 0 3.79415" scale="2 2 2">
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="-7.436 0 0.52734" scale="2 2 2">
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="-1.70819 0 -4.71536" scale="2 2 2">
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="6.8115 0 2.97268" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-2.35266 0 7.76868" scale="2 2 2">
 
-<a-entity gltf-model="./assets/trees-1.glb" position="3.84537 0 4.6426" scale="2 2 2">
-    
-</a-entity>
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-1.glb" position="4.10359 0 3.0218" scale="2 2 2">
-    
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="1.54812 0 7.24193" scale="2 2 2">
 
-<a-entity gltf-model="./assets/grass_1.glb" position="" scale="1 0.7 1">
+    </a-entity>
 
-</a-entity>
-<a-entity gltf-model="./assets/trees-1.glb" position="-5.03365 0 4.57022" scale="2 2 2">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="2.03921 0 5.24492" scale="2 2 2">
 
-<a-entity gltf-model="./assets/trees-1.glb" position="-5.63097 0 8.31943" scale="2 2 2">
-</a-entity>
+    </a-entity>
 
-<a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg" position="-9.24719 0 7.41335" scale="4 4 4">
-</a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="7.21983 0 -0.94416" scale="2 2 2">
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-6.66247 0 3.79415" scale="2 2 2">
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-7.436 0 0.52734" scale="2 2 2">
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-1.70819 0 -4.71536" scale="2 2 2">
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="6.8115 0 2.97268" scale="2 2 2">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-1.glb" position="3.84537 0 4.6426" scale="2 2 2">
+
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-1.glb" position="4.10359 0 3.0218" scale="2 2 2">
+
+    </a-entity>
+
+    <a-entity gltf-model="./assets/grass_1.glb" position="" scale="1 0.7 1">
+
+    </a-entity>
+    <a-entity gltf-model="./assets/trees-1.glb" position="-5.03365 0 4.57022" scale="2 2 2">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-1.glb" position="-5.63097 0 8.31943" scale="2 2 2">
+    </a-entity>
+
+    <a-entity gltf-model="./assets/trees-2-txt.glb" material="./assets/trees-texture-1.jpg"
+      position="-9.24719 0 7.41335" scale="4 4 4">
+    </a-entity>
 
 
 
@@ -203,19 +210,20 @@ scale="2 2 2">
 
 
 
-<!-- -----------------------------------objets---------------------------- -->
-<a-entity class="clickable" gltf-model="./assets/camera-1.glb" position="-1.68071 0.36014 -1.83312" scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
+    <!-- -----------------------------------objets---------------------------- -->
+    <a-entity class="clickable" gltf-model="./assets/camera-1.glb" position="-1.68071 0.36014 -1.83312"
+      scale="0.02 0.02 0.02" rotation="" play-sound=""></a-entity>
 
 
 
-<a-entity sound="src: #sound"></a-entity>
+    <a-entity sound="src: #sound"></a-entity>
 
 
 
 
 
 
-      <!-- Sol -->
+    <!-- Sol -->
 
 
 
@@ -224,66 +232,50 @@ scale="2 2 2">
 
 
 
-      <a-plane 
-          position="0 0.01 0" 
-          rotation="-90 0 0" 
-          width="20" 
-          height="20" 
-          color="#000">
-
-          >
-        </a-plane>
+    <a-plane position="0 0.01 0" rotation="-90 0 0" width="20" height="20" color="#000"></a-plane>
 
 
-<!-- -------------------herbe-------------------------------- -->
+    </a-plane>
 
-<!-- <a-entity 
+
+    <!-- -------------------herbe-------------------------------- -->
+
+    <!-- <a-entity 
 gltf-model="#grass" 
 position="0 0 0" 
 scale="1 0.7 1">
 
 </a-entity> -->
 
-<!-- --------------------Bush --------------------------------->
+    <!-- --------------------Bush --------------------------------->
 
-<a-entity gltf-model="./assets/real_bush.glb" position="-1.03 -0.18 -2.98" scale="0.01 0.015 0.01">
+    <a-entity gltf-model="./assets/real_bush.glb" position="-1.03 -0.18 -2.98" scale="0.01 0.015 0.01">
 
-</a-entity>
+    </a-entity>
 
-<a-entity gltf-model="./assets/real_bush.glb" position="-6.4269 0 -0.73774" scale="0.01 0.015 0.01">
+    <a-entity gltf-model="./assets/real_bush.glb" position="-6.4269 0 -0.73774" scale="0.01 0.015 0.01">
 
-</a-entity>
-
-
-<a-entity gltf-model="./assets/real_bush.glb" position="-6.23476 0 3.43873" scale="0.01 0.015 0.01">
-
-</a-entity>
+    </a-entity>
 
 
-<a-entity 
-gltf-model="#bush" 
-position="-7 0 -3" 
-scale="0.01 0.015 0.01">
+    <a-entity gltf-model="./assets/real_bush.glb" position="-6.23476 0 3.43873" scale="0.01 0.015 0.01">
 
-</a-entity>
-
-<a-entity gltf-model="./assets/real_bush.glb" position="-1.51463 0 6.66856" scale="0.01 0.015 0.01" rotation="0 20 0">
-
-</a-entity>
-
-<a-entity gltf-model="./assets/real_bush.glb" position="-4.28068 0 5.52106" scale="0.01 0.015 0.01" rotation="0 20 0">
-
-</a-entity>
+    </a-entity>
 
 
+    <a-entity gltf-model="#bush" position="-7 0 -3" scale="0.01 0.015 0.01">
 
+    </a-entity>
 
+    <a-entity gltf-model="./assets/real_bush.glb" position="-1.51463 0 6.66856" scale="0.01 0.015 0.01"
+      rotation="0 20 0">
 
+    </a-entity>
 
+    <a-entity gltf-model="./assets/real_bush.glb" position="-4.28068 0 5.52106" scale="0.01 0.015 0.01"
+      rotation="0 20 0">
 
-
-  
-    
+    </a-entity>
 
 
 
@@ -292,87 +284,94 @@ scale="0.01 0.015 0.01">
 
 
 
-      <!---------------------------------CAM--------------------------------->
-      <a-entity cursor position="0 0 -5"></a-entity>
 
 
-      <a-entity
-      camera
-      position="-1.2367 2 1.93005"
-      rotation="-31.513 116.998 0"
-      look-controls
 
-    >
+
+
+
+
+
+
+
+    <!---------------------------------CAM--------------------------------->
+    <a-entity cursor position="0 0 -5"></a-entity>
+
+
+
+
+    <a-entity camera position="-1.2367 2 1.93005" rotation="-31.513 116.998 0" look-controls>
 
       <!-- cursor -->
       <a-entity oculus-touch-controls="hand: left"></a-entity>
       <a-entity oculus-touch-controls="hand: right"></a-entity>
 
 
-      <a-entity
-      laser-controls="hand: left"
-      raycaster="objects: .clickable; far: 20; showLine: true lineColor: red; lineOpacity: 0.5"
-      position="-0.5 1.5 -0.5"
-    ></a-entity>
+      <a-entity laser-controls="hand: left"
+        raycaster="objects: .clickable; far: 20; showLine: true lineColor: red; lineOpacity: 0.5"
+        position="-0.5 1.5 -0.5"></a-entity>
 
       <!-- Lumière attachée à la caméra -->
-      <a-light
-        type="spot"
-        color="#ffffff"
-        intensity="5"
-        angle="30"
-        penumbra="1"
-        target="#spotTarget"
-        distance="200"
-      ></a-light>
+      <a-light type="spot" color="#ffffff" intensity="5" angle="30" penumbra="1" target="#spotTarget"
+        distance="200"></a-light>
 
       <!-- Cible de la lumière -->
-      <a-entity
-        id="spotTarget"
-        position="0 0 -1"
-      ></a-entity>
+      <a-entity id="spotTarget" position="0 0 -1"></a-entity>
     </a-entity>
-    
-      <!-- Ciel -->
-      <a-sky color="#00000"></a-sky>
-    
-    </a-scene>
-    <script>
 
-      
-      // Créer une variable pour gérer l'état de l'AudioContext
-      let soundEnabled = false;
+    <!-- Ciel -->
+    <a-sky color="#00000"></a-sky>
+  </a-scene>
+  <script>
 
-      // Fonction pour activer l'AudioContext sur un clic utilisateur
-      function enableSoundOnUserClick() {
-        soundEnabled = true;
-        console.log("AudioContext activé après un clic utilisateur");
-        // Supprimer l'événement une fois que l'activation a eu lieu
-        document.removeEventListener('click', enableSoundOnUserClick);
+document.getElementById("playButton").addEventListener("click", function() {
+      let soundEntity = document.getElementById("ambientSound");
+      soundEntity.components.sound.playSound(); // Démarre le son d'ambiance
+      this.style.display = "none"; // Cache le bouton après activation
+    });
+
+    // Composant pour jouer un son spécifique sur un clic
+    AFRAME.registerComponent("play-sound", {
+      init: function () {
+        this.el.addEventListener("click", () => {
+          let sound = document.querySelector("#sound");
+          sound.play();
+        });
       }
+    });
 
-      // Écouteur d'événements pour activer l'AudioContext sur un clic n'importe où
-      document.addEventListener('click', enableSoundOnUserClick);
 
-      // Composant pour jouer le son lorsqu'on clique sur l'entité
-      AFRAME.registerComponent("play-sound", {
-        init: function () {
-          // Lorsqu'on clique sur l'élément (dans ce cas le cube)
-          this.el.addEventListener("click", () => {
-            if (soundEnabled) {
-              // Sélectionner l'élément audio et jouer le son
-              var sound = document.querySelector("#sound");
-              sound.play();
-              console.log("Son joué");
-            } else {
-              console.log("L'audio n'est pas activé encore. Attendez un clic.");
-            }
-          });
-        },
-      });
-    </script>
-  </body>
+    // Créer une variable pour gérer l'état de l'AudioContext
+    let soundEnabled = false;
+
+    // Fonction pour activer l'AudioContext sur un clic utilisateur
+    function enableSoundOnUserClick() {
+      soundEnabled = true;
+      console.log("AudioContext activé après un clic utilisateur");
+      // Supprimer l'événement une fois que l'activation a eu lieu
+      document.removeEventListener('click', enableSoundOnUserClick);
+    }
+
+    // Écouteur d'événements pour activer l'AudioContext sur un clic n'importe où
+    document.addEventListener('click', enableSoundOnUserClick);
+
+    // Composant pour jouer le son lorsqu'on clique sur l'entité
+    AFRAME.registerComponent("play-sound", {
+      init: function () {
+        // Lorsqu'on clique sur l'élément (dans ce cas le cube)
+        this.el.addEventListener("click", () => {
+          if (soundEnabled) {
+            // Sélectionner l'élément audio et jouer le son
+            var sound = document.querySelector("#sound");
+            sound.play();
+            console.log("Son joué");
+          } else {
+            console.log("L'audio n'est pas activé encore. Attendez un clic.");
+          }
+        });
+      },
+    });
+  </script>
+</body>
+
 </html>
-
-
-  

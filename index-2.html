@@ -1,75 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My A-Frame Scene</title>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spawner Filtré</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene fog="type: exponential; color: #000; density: 0.2">
+    
+    <a-assets>
+      <audio id="ambience" src="./assets/ambience.mp3"></audio>
+      <audio id="sound" src="./assets/screaming_1.mp3"></audio>
+    </a-assets>
 
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets>
-        <audio id="sound" src="./assets/collect.mp3"></audio>
-      </a-assets>
-      <a-entity
-        class="clickable"
-        id="rotating-box"
-        geometry="primitive: box"
-        position="0 2 -5"
-        material="color: blue"
-        rotation="0 0 0"
-        play-sound
-      ></a-entity>
+    <!-- Entité pour le son d'ambiance -->
+    <a-entity id="ambientSound" 
+              sound="src: #ambience; autoplay: false; loop: true; volume: 1; positional: false;">
+    </a-entity>
 
-      <a-entity sound="src: #sound"></a-entity>
+    <!-- Exemple d'objet interactif jouant un son -->
+    <a-entity class="clickable" gltf-model="./assets/camera-1.glb" 
+              position="-1.68071 0.36014 -1.83312"
+              scale="0.02 0.02 0.02" play-sound="">
+    </a-entity>
 
-      <!-- Camera rig with laser pointer -->
-      <a-entity id="rig" position="0 0 0">
-        <a-entity camera look-controls position="0 1.6 0"></a-entity>
-        <a-entity
-          laser-controls="hand: left"
-          raycaster="objects: .clickable; far: 20; showLine: true lineColor: red; lineOpacity: 0.5"
-          position="-0.5 1.5 -0.5"
-        ></a-entity>
-      </a-entity>
+    <!-- Caméra -->
+    <a-entity camera position="-1.2367 2 1.93005" rotation="-31.513 116.998 0" look-controls>
+      <a-entity oculus-touch-controls="hand: left"></a-entity>
+      <a-entity oculus-touch-controls="hand: right"></a-entity>
+    </a-entity>
 
-      <!-- Environment -->
-      <a-entity environment="preset: forest; dressingAmount: 500"></a-entity>
-    </a-scene>
+    <a-sky color="#00000"></a-sky>
+  </a-scene>
 
-    <script>
-      // Créer une variable pour gérer l'état de l'AudioContext
-      let soundEnabled = false;
+  <button id="playButton" style="position: fixed; top: 10px; left: 10px; padding: 10px; font-size: 16px;">
+    Activer le son
+  </button>
 
-      // Fonction pour activer l'AudioContext sur un clic utilisateur
-      function enableSoundOnUserClick() {
-        soundEnabled = true;
-        console.log("AudioContext activé après un clic utilisateur");
-        // Supprimer l'événement une fois que l'activation a eu lieu
-        document.removeEventListener('click', enableSoundOnUserClick);
+  <script>
+    document.getElementById("playButton").addEventListener("click", function() {
+      let soundEntity = document.getElementById("ambientSound");
+      soundEntity.components.sound.playSound(); // Démarre le son d'ambiance
+      this.style.display = "none"; // Cache le bouton après activation
+    });
+
+    // Composant pour jouer un son spécifique sur un clic
+    AFRAME.registerComponent("play-sound", {
+      init: function () {
+        this.el.addEventListener("click", () => {
+          let sound = document.querySelector("#sound");
+          sound.play();
+        });
       }
-
-      // Écouteur d'événements pour activer l'AudioContext sur un clic n'importe où
-      document.addEventListener('click', enableSoundOnUserClick);
-
-      // Composant pour jouer le son lorsqu'on clique sur l'entité
-      AFRAME.registerComponent("play-sound", {
-        init: function () {
-          // Lorsqu'on clique sur l'élément (dans ce cas le cube)
-          this.el.addEventListener("click", () => {
-            if (soundEnabled) {
-              // Sélectionner l'élément audio et jouer le son
-              var sound = document.querySelector("#sound");
-              sound.play();
-              console.log("Son joué");
-            } else {
-              console.log("L'audio n'est pas activé encore. Attendez un clic.");
-            }
-          });
-        },
-      });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
