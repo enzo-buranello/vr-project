@@ -29,13 +29,7 @@
     </a-assets>
 
 
-    <a-entity id="ambientSound" 
-    sound="src: #ambience; autoplay: false; loop: true; volume: O.5; positional: false;">
-</a-entity>
 
-<button id="playButton" style="position: fixed; top: 10px; left: 10px; padding: 10px; font-size: 16px;">
-  Activer le son
-</button>
 
     <!-- Arbre 1 -->
     <a-entity gltf-model="./assets/trees-2-txt.glb" gltf-texture="src: ./assets/trees-texture-1.jpg"
@@ -324,21 +318,7 @@ scale="1 0.7 1">
   </a-scene>
   <script>
 
-document.getElementById("playButton").addEventListener("click", function() {
-      let soundEntity = document.getElementById("ambientSound");
-      soundEntity.components.sound.playSound(); // Démarre le son d'ambiance
-      this.style.display = "none"; // Cache le bouton après activation
-    });
 
-    // Composant pour jouer un son spécifique sur un clic
-    AFRAME.registerComponent("play-sound", {
-      init: function () {
-        this.el.addEventListener("click", () => {
-          let sound = document.querySelector("#sound");
-          sound.play();
-        });
-      }
-    });
 
 
     // Créer une variable pour gérer l'état de l'AudioContext
